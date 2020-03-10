@@ -5,12 +5,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+//*********************************************************/
+//  Setting up an environmental variable to check whether */
+//  this instance will run locally or in Heroku           */
+//*********************************************************/
+let uristring=
+  process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  "mongodb://localhost/workout";
+
 //************************/
 //  Setting up express   */
 //************************/
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const app = express();
-// app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
@@ -24,9 +32,12 @@ require("./routes/api-routes.js")(app);
 //************************/
 //  Setting up Mongoose  */
 //************************/
-mongoose.connect("mongodb://localhost/workout", {
-  useNewUrlParser: true,
-  useFindAndModify: false
+mongoose.connect(uristring, function (err,res) {
+  if(error){
+    console.log (`ERROR connecting to ${uristring}.  Error: ${err}`);
+  } else {
+    console.log(`Succeeded connected to ${uristring}`);
+  }
 });
 
 //********************************/

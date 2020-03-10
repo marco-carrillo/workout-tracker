@@ -1,0 +1,25 @@
+{
+  "name": "workout-tracker",
+  "version": "1.0.0",
+  "description": "Workout tracker",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marco-carrillo/workout-tracker.git"
+  },
+  "author": "Marco Carrillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marco-carrillo/workout-tracker/issues"
+  },
+  "homepage": "https://github.com/marco-carrillo/workout-tracker#readme"
+}
