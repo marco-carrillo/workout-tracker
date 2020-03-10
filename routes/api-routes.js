@@ -5,9 +5,9 @@ var db = require("../models");
 
 module.exports = function(app) {
 
-//***********************************************************/
-//  The following route returns all of the workout records  */
-//***********************************************************/
+//************************************************************************/
+//  The following route provides the 7 most recent records on the table  */
+//************************************************************************/
 app.get("/api/workouts/range",(req,res)=>{
   console.log('Providing all workout records for tracking chart creation');
   db.Workout.find({})
@@ -17,6 +17,7 @@ app.get("/api/workouts/range",(req,res)=>{
   .catch(err => {
     res.json(err);
   });
+
 });
 
   //***********************************************************/

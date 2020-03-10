@@ -4,10 +4,30 @@ fetch("/api/workouts/range")
   .then(response => {
     return response.json();
   })
-  .then(data => {
+  .then(datarow => {
+    //****************************************************/
+    // DataRow is received from server in unsorted form
+    // It is sorted ascending
+    //****************************************************/
+    let datasorted=datarow.sort((a,b)=>{
+        let dateA=new Date(a.day), dateB=new Date(b.day);
+        return dateA-dateB;
+      });
+    //****************************************************/
+    // Now, we will pick the top 7 elements to be displayed
+    // all other data will be discarded
+    //****************************************************/
+    let data=[];
+    if (datasorted.length<=7){
+      data=datasorted;
+    } else {
+      data=datasorted.slice(datasorted.length-7,datasorted.length);
+    }
+    //**********************************/
+    //  Now we will populate the data  */
+    //**********************************/
     populateChart(data);
   });
-
 
 API.getWorkoutsInRange()
 
@@ -37,6 +57,7 @@ function populateChart(data) {
   let durations = duration(data);
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
+  let labels = label(data);
   const colors = generatePalette();
 
   let line = document.querySelector("#canvas").getContext("2d");
@@ -47,15 +68,7 @@ function populateChart(data) {
   let lineChart = new Chart(line, {
     type: "line",
     data: {
-      labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ],
+      labels: labels,
       datasets: [
         {
           label: "Workout Duration In Minutes",
@@ -95,15 +108,7 @@ function populateChart(data) {
   let barChart = new Chart(bar, {
     type: "bar",
     data: {
-      labels: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
+      labels: labels,
       datasets: [
         {
           label: "Pounds",
@@ -186,25 +191,41 @@ function populateChart(data) {
   });
 }
 
+//*********************************************************************/
+//  Following function has been modified so that only one array       */
+//  is returned for each workout.  It adds all of the durations for   */
+//  all of the exercises in the workout and returns it                */
+//*********************************************************************/
 function duration(data) {
   let durations = [];
+  let total_duration=0;
 
   data.forEach(workout => {
+    total_duration=0;   // sets total duration to zero for each workout
     workout.exercises.forEach(exercise => {
-      durations.push(exercise.duration);
+        total_duration=total_duration+exercise.duration;
     });
+    durations.push(total_duration);
   });
 
   return durations;
 }
 
+//*********************************************************************/
+//  Following function has been modified so that only one array       */
+//  is returned for each workout.  It adds all of the weights for     */
+//  all of the exercises in the workout and returns it                */
+//*********************************************************************/
 function calculateTotalWeight(data) {
   let total = [];
+  let total_weight=0;
 
   data.forEach(workout => {
+    total_weight=0;   // Initializes weight to zero for each workout
     workout.exercises.forEach(exercise => {
-      total.push(exercise.weight);
+      total_weight=total_weight+exercise.weight;   // adds all of the weights from all of the workout exercises
     });
+    total.push(total_weight);  // pushes only 1 record for each workout
   });
 
   return total;
@@ -220,4 +241,17 @@ function workoutNames(data) {
   });
   
   return workouts;
+}
+
+//***************************************************/
+//  the following function will populate the labels
+// using the date obtained from the data
+//***************************************************/
+function label(data) {
+  let labels = [];
+
+  data.forEach(workout => {
+    labels.push(moment(workout.day).format('MM-DD-YY'));
+  });
+  return labels;
 }
