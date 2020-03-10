@@ -219,11 +219,11 @@ function duration(data) {
 function calculateTotalWeight(data) {
   let total = [];
   let total_weight=0;
-
+  
   data.forEach(workout => {
     total_weight=0;   // Initializes weight to zero for each workout
     workout.exercises.forEach(exercise => {
-      total_weight=total_weight+exercise.weight;   // adds all of the weights from all of the workout exercises
+      if(!(exercise.weight==null)) {total_weight=total_weight+exercise.weigh};   // adds all of the weights from all of the workout exercises
     });
     total.push(total_weight);  // pushes only 1 record for each workout
   });
