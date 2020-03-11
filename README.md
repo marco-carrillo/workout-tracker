@@ -52,6 +52,6 @@ Additionally, it will chart the total pounds lifted by all of the individual exe
 
 ##  Overall application demonstration
 
-![GIF of input](./valentino-demo.gif)
+![GIF of input](./workout-demo.gif)
 
 
