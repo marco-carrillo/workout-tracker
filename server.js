@@ -34,7 +34,7 @@ let uristring=
 //  Setting up Mongoose  */
 //************************/
 mongoose.connect(uristring, function (err,res) {
-  if(error){
+  if(err){
     console.log (`ERROR connecting to ${uristring}.  Error: ${err}`);
   } else {
     console.log(`Succeeded connected to ${uristring}`);

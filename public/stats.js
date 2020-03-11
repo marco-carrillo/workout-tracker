@@ -60,6 +60,7 @@ function populateChart(data) {
   let labels = label(data);
   const colors = generatePalette();
 
+
   let line = document.querySelector("#canvas").getContext("2d");
   let bar = document.querySelector("#canvas2").getContext("2d");
   let pie = document.querySelector("#canvas3").getContext("2d");
@@ -223,7 +224,7 @@ function calculateTotalWeight(data) {
   data.forEach(workout => {
     total_weight=0;   // Initializes weight to zero for each workout
     workout.exercises.forEach(exercise => {
-      if(!(exercise.weight==null)) {total_weight=total_weight+exercise.weigh};   // adds all of the weights from all of the workout exercises
+      if(!(exercise.weight==null)) {total_weight=total_weight+exercise.weight};   // adds all of the weights from all of the workout exercises
     });
     total.push(total_weight);  // pushes only 1 record for each workout
   });
