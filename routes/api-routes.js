@@ -61,6 +61,4 @@ app.put("/api/workouts/:id",(req,res)=>{
     res.json(err);
   });
 });
-
-
 };

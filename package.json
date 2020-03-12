@@ -1,6 +1,8 @@
 {
   "name": "workout-tracker",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.14.1"},
   "description": "Workout tracker",
   "main": "server.js",
   "dependencies": {
