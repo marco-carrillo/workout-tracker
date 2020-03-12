@@ -26,11 +26,12 @@ require("./routes/api-routes.js")(app);
 //*********************************************************/
 let PORT = process.env.PORT || 5000;
 console.log('MONGOLAB_URI: ',process.env.MONGOLAB_URI);
-console.log('MONGOHQ_URI: ',process.env.MONGOHQ_URI);
+console.log('MONGOHQ_URL: ',process.env.MONGOHQ_URL);
 console.log('MONGODB_URI: ',process.env.MONGODB_URI);
 let uristring=
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
+  // process.env.MONGOLAB_URI ||
+  // process.env.MONGOHQ_URL ||
+  process.env.MONGODB_URI ||
   "mongodb://localhost/workout";
 
 //************************/
