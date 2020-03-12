@@ -25,6 +25,9 @@ require("./routes/api-routes.js")(app);
 //  this instance will run locally or in Heroku           */
 //*********************************************************/
 let PORT = process.env.PORT || 5000;
+console.log('MONGOLAB_URI: ',process.env.MONGOLAB_URI);
+console.log('MONGOHQ_URI: ',process.env.MONGOHQ_URI);
+console.log('MONGODB_URI: ',process.env.MONGODB_URI);
 let uristring=
   process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
