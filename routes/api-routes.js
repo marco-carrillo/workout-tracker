@@ -7,20 +7,23 @@ module.exports = function(app) {
 
 //************************************************************************/
 //  The following route provides the 7 most recent records on the table  */
+//  This data will be used by the graph.  The graph will aggregate all   */
+//  of the exercises inside each workout and will graph them accordingly */
+//  However, the workout needs to have at least one exercise to count    */
+//  Workouts without data will be ignored.                               */
 //************************************************************************/
 app.get("/api/workouts/range",(req,res)=>{
-  console.log('Providing all workout records for tracking chart creation');
-  db.Workout.find({})
+  console.log('Providing latest 7 records of workouts - Based on date');
+  db.Workout.find({"exercises.0":{"$exists": true}}).sort({_id:-1}).limit(7)
   .then(dbWorkout => {
     res.json(dbWorkout);
   })
   .catch(err => {
     res.json(err);
   });
-
 });
 
-  //***********************************************************/
+//***********************************************************/
 //  The following route returns all of the workout records  */
 //***********************************************************/
 app.get("/api/workouts/",(req,res)=>{

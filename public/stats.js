@@ -5,27 +5,29 @@ fetch("/api/workouts/range")
     return response.json();
   })
   .then(datarow => {
-    //****************************************************/
-    // DataRow is received from server in unsorted form
-    // It is sorted ascending
-    //****************************************************/
+    //******************************************************/
+    // DataRow is received from server presumably sorted.  */ 
+    // Will ensure it is sorted ascending                  */
+    //******************************************************/
+    console.log(datarow);
     let datasorted=datarow.sort((a,b)=>{
         let dateA=new Date(a.day), dateB=new Date(b.day);
         return dateA-dateB;
       });
-    //****************************************************/
-    // Now, we will pick the top 7 elements to be displayed
-    // all other data will be discarded
-    //****************************************************/
+    console.log(datasorted);
+    //*********************************************************/
+    // Now, we only expect 7 records.  If more are received,  */
+    // it will take the most recent 7 and discard the others  */
+    //*********************************************************/
     let data=[];
     if (datasorted.length<=7){
       data=datasorted;
     } else {
       data=datasorted.slice(datasorted.length-7,datasorted.length);
     }
-    //**********************************/
-    //  Now we will populate the data  */
-    //**********************************/
+    //***********************************************/
+    //  Now we will populate the data  in the graph */
+    //***********************************************/
     populateChart(data);
   });
 
