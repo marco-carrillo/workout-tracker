@@ -9,12 +9,10 @@ fetch("/api/workouts/range")
     // DataRow is received from server presumably sorted.  */ 
     // Will ensure it is sorted ascending                  */
     //******************************************************/
-    console.log(datarow);
     let datasorted=datarow.sort((a,b)=>{
         let dateA=new Date(a.day), dateB=new Date(b.day);
         return dateA-dateB;
       });
-    console.log(datasorted);
     //*********************************************************/
     // Now, we only expect 7 records.  If more are received,  */
     // it will take the most recent 7 and discard the others  */

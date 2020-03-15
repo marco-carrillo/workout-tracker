@@ -37,9 +37,9 @@ Then, it will ask the user to enter the exercise information, after which, it wi
 
 ## Fitness Tracker Workout Dashboard
 
-This workout has been modified from its original given how odd its original behavior.  It has been modified to provide the user with the statistics of the last seven workouts (generally one workout per day).
+This workout has been modified from its original given how odd its original behavior.  It has been modified to provide the user with the statistics of the last seven workouts that have at least one exercise.  Any workout without any exercise will be ignored.
 
-For those users that do two or more workouts per day, we recommend treating the workout as one throughout the day.
+If a user enters multiple workouts per day, it won't aggregate them.  If will display them separately.
 
 For users that skipped workouts during the days, the application will provide the last seven, regardless of how long ago it was.
 
@@ -49,9 +49,20 @@ For each workout, it will chart the total duration of all the individual exercis
 
 Additionally, it will chart the total pounds lifted by all of the individual exercises for that particular workout.
 
+Each workout will be identified by the date it was entered.
+
+##  Server APIs
+
+There are four servers APIs that will use Mongoose to manage the Mongo NOSQL database.
+
+1.  HTPP GET "/api/workouts/range":  Whenever this API route is called, it will retrieve the 7 most recent workouts that have at least one exercise.  Whenever the user asks to create a new workout the system will create an empty workout (no exercises).  It is up to the user to actually enter the exercises data.  Any time the user creates a workout but don't enter any exercise, the API will ignore them when returning the most recent seven workouts.
+
+2.  HTTP GET "/api/workouts/":  This API is called by the client so that it can find which is the most recent workout.  We will return only one, the most recent one.  Even if we return more than one, the client will always use the most recent one.  However, we don't want to unnecessarily send all of the collection so that the client can only use the most recent one.  That would add to latency when the database grows
+
+3.  HTTP POST "/api/workouts/":  This API will create a new workout.  Whenever the user requests to create a new record, it will create one.  Later, the user should add exercises to the workout.
+
+4.  HTTP PUT "/api/workouts/:id":  This API will provide a workout id, and the data to add an exercise to the workout.  The exercise is an array embedded into a workout, so whenever this API is called, the server will push an additional array member into the workout.
 
 ##  Overall application demonstration
 
 ![GIF of input](./workout-demo.gif)
-
-

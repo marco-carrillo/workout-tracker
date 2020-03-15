@@ -23,12 +23,13 @@ app.get("/api/workouts/range",(req,res)=>{
   });
 });
 
-//***********************************************************/
-//  The following route returns all of the workout records  */
-//***********************************************************/
+//*************************************************************************/
+//  The following route returns most recent workout records.  The client  */
+//  is trying to figure out which one is the most recent one              */
+//*************************************************************************/
 app.get("/api/workouts/",(req,res)=>{
-    console.log('Providing all workout records to find the most recent one');
-    db.Workout.find({})
+    console.log('Providing most recent workout record');
+    db.Workout.find().sort({_id:-1}).limit(1)
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
@@ -39,6 +40,7 @@ app.get("/api/workouts/",(req,res)=>{
 
 //**************************************************************************/
 //  The following route creates a new document in the workouts collection  */
+//  At this point, the exercises array will be empty.                      */
 //**************************************************************************/
 app.post("/api/workouts/",(req,res)=>{
   console.log('Creating new workout data');
@@ -53,6 +55,7 @@ app.post("/api/workouts/",(req,res)=>{
 
 //***************************************************************************/
 //  The following route updates workout exercise for a specific workout id  */
+//  It will push a new exercise into the embedded exercises array           */
 //***************************************************************************/
 app.put("/api/workouts/:id",(req,res)=>{
   console.log(`Providing data for workout id ${req.params.id}`);
